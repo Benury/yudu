@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>于都来于返于人员登记信息</title>
+		<link rel="stylesheet" type="text/css" href="http://unpkg.com/view-design/dist/styles/iview.css">
+		<script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+		<script type="text/javascript" src="http://unpkg.com/view-design/dist/iview.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="layout">
+				<i-layout>
+					<i-header style="color:#fff">于都来于返于人员登记信息</i-header>
+					<i-content>
+						<i-table border :columns="columns" :data="users">
+							<template slot-scope="{ row, index }" slot="审核">
+								<!-- <Button type="primary" size="small" style="margin-right: 5px">View</Button> -->
+								<i-button type="error" size="small" >未审核</i-button>
+							</template>
+						</i-table>
+					
+					</i-content>
+
+				</i-layout>
+
+
+
+			</div>
+
+		</div>
+		<script>
+			new Vue({
+				el: '#app',
+				data: {
+					visible: false,
+					columns: [{
+							title: '乡镇',
+							key: 'xiang'
+						},
+						{
+							title: '村',
+							key: 'cun'
+						},
+						{
+							title: '组',
+							key: 'zu'
+						},
+						{
+							title: '姓名',
+							key: 'xingming'
+						},
+						{
+							title: '身份证',
+							key: 'sfzh'
+						},
+						{
+							title: '联系方式',
+							key: 'phone'
+						}, {
+							title: '往返时间',
+							key: 'edate'
+						},
+						{
+							title: '从何地返回',
+							key: 'back_address'
+						},
+						{
+							title: '返回方式',
+							key: 'back_type'
+						}
+						, {
+							title: '身体状况',
+							key: 'helthy'
+						},
+						{
+							title: '监管人姓名',
+							key: 'mname'
+						},
+						{
+							title: '监管人职务',
+							key: 'mjob'
+						}, {
+							title: '监管人电话',
+							key: 'mphone'
+						},
+						{
+							title: '备注',
+							key: 'desc'
+						},
+						{
+							title: '审核',
+							key: 'status',
+							slot: '审核',
+						}
+					],
+					users: []
+				},
+				mounted: function() {
+					// 获取数据
+					this.getData();
+				},
+				methods: {
+					getData: function() {
+						var self = this;
+						
+						$.ajax({
+							url: '/index.ashx?method=getUsers',
+							type: 'post',
+							dataType: "json",
+							data: {
+
+							},
+							contentType: "application/x-www-form-urlencoded; charset=utf-8",
+							success: function(res) {
+								self.users = res || [];
+							}
+						})
+					},
+					show: function() {
+						this.visible = true;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
